@@ -6,6 +6,7 @@ import Auth from './Auth';
 import * as serviceWorker from './serviceWorker';
 
 const auth = new Auth();
+let state = {};
 window.setState = changes => {
   state = Object.assign({}, state, changes)
   ReactDOM.render(<App {...state} />,
@@ -14,7 +15,7 @@ window.setState = changes => {
 
 let initialState = {
   name: 'Derp',
-  location: location.pathname.replace(/^\/?|\/$/g, ""),
+  location: window.location.pathname.replace(/^\/?|\/$/g, ""),
   auth
 }
 
