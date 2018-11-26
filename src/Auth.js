@@ -1,4 +1,5 @@
 import auth0 from 'auth0-js';
+import dotenv from 'dotenv';
 
 const LOGIN_SUCCESS_PAGE = "/secret";
 const LOGIN_FAILURE_PAGE = "/";
@@ -6,10 +7,10 @@ const LOGIN_FAILURE_PAGE = "/";
 class Auth {
 
   auth0 = new auth0.WebAuth({
-    domain: "3788high.auth0.com",
-    clientID: "XZYjm9QQzH3vDv1FmwBf2Mf5GDz8q4n-",
+    domain: process.env.REACT_APP_DOMAIN,
+    clientID: process.env.REACT_APP_CLIENT_ID,
     redirectUri: "http://localhost:3000/callback",
-    audience: "https://3788high.auth0.com/userinfo",
+    audience: process.env.REACT_APP_AUDIENCE,
     responseType: "token id_token",
     scope: "openid email profile"
   })
