@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import dotenv from 'dotenv';
+import { fire } from '../fire';
 
 export default class Secret extends Component {
 
   state = {
     fetched: false,
-    name: ""
+    name: "",
+    db: ""
   }
 
   fetchUsrData = () => {
@@ -17,12 +20,15 @@ export default class Secret extends Component {
     })
       .then(response => response.json())
       .then(data => this.setName(data.name))
-      .then(this.setState({ fetched: true }))
+      .then(()=> this.setState({ fetched: true }))
       .catch(error => console.log(error));
   };
 
   setName = name => {
     this.setState({ name: name }, localStorage.setItem("name", name));
+    this.state.db.ref().set({
+      name: name
+    });
   }
 
   getName = () => localStorage.getItem("name");
@@ -49,7 +55,8 @@ export default class Secret extends Component {
   }
 
   componentDidMount() {
-    this.fetchUsrData().then(this.dataLoaded())
+    this.fetchUsrData();
+    this.setState({ db: fire.database() })
   }
 
   render() {
