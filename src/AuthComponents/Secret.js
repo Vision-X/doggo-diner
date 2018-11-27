@@ -3,11 +3,15 @@ import dotenv from "dotenv";
 import { fire } from "../fire";
 
 export default class Secret extends Component {
-  state = {
-    fetched: false,
-    name: "",
-    db: fire.database()
-  };
+  constructor() {
+    super();
+    this.state = {
+      fetched: false,
+      name: "",
+      db: fire.database()
+    };
+    this.fetchUsrData();
+  }
 
   count = 0;
 
@@ -21,6 +25,7 @@ export default class Secret extends Component {
     })
       .then(response => response.json())
       .then(data => this.setName(data.name))
+      // .then(data => this.findUsr(data.name))
       .catch(error => console.log(error));
   };
 
@@ -29,7 +34,8 @@ export default class Secret extends Component {
       name: name,
       fetched: true
     }, localStorage.setItem("name", name));
-    this.checkUsr(name, this.findUsr(name));
+    this.checkUsr(name);
+    //
   };
 
   findUsr = user => {
@@ -42,9 +48,10 @@ export default class Secret extends Component {
         } else {
           console.log("NO RECORDS FOUND BIHHH");
           return false;
+
         }
-      });
-    });
+      })
+    })
   };
 
   checkUsr = user => {
@@ -84,7 +91,7 @@ export default class Secret extends Component {
             deebee
               .ref(`${logPath}/${today}`)
               .child("lastLogin")
-              .set(Date.now());
+              .set(this.timeStamp());
             return true;
           }
         } else {
@@ -94,7 +101,7 @@ export default class Secret extends Component {
             recent: "",
             signInLog: {
               [`${today}`]: {
-                lastLogin: Date.now(),
+                lastLogin: this.timeStamp(),
                 visits: 1
               }
             }
@@ -104,6 +111,10 @@ export default class Secret extends Component {
       });
     });
   };
+
+  timeStamp = () => {
+    return new Date().toLocaleString('en-US', { timeZone: 'America/Denver' })
+  }
 
   dateConversion = () => {
     // let date = new Date();
@@ -156,7 +167,7 @@ export default class Secret extends Component {
   };
 
   componentDidMount() {
-    this.fetchUsrData();
+    // this.fetchUsrData();
   }
 
   render() {
