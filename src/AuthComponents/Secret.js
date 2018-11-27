@@ -33,35 +33,29 @@ export default class Secret extends Component {
     this.setState({
       name: name,
       fetched: true
-    }, this.stashData(name))
+    }, this.saveDBToState(name))
     //
     localStorage.setItem("name", name);
   };
 
-  stashData = user => {
+  saveDBToState = user => {
     let snoog;
     let userList = this.state.db.ref("/users");
     userList.once("value").then(snap => {
       snoog = snap.exportVal();
       this.setState({ data: snoog })
     })
-    // .then(()=>console.log(this.validUsr(user, snoog)));
-    // })
-    // for (let key in snoog) {
-    //   if (key == user) {
-    //     console.log("THEY EXIST BIHHH");
-    //     return true;
-    //   } else {
-    //     console.log("NO RECORDS FOUND BIHHH");
-    //     return false;
-    //   }
-    // }
-    // console.log(snoog);
-}
+    this.checkUsr(user)
+  }
 
   validUsr = user => {
     if (this.state.data && Object.keys(this.state.data).length) {
-      return this.state.data.hasOwnProperty(user);
+      if (this.state.data.hasOwnProperty(user)) {
+        // this.checkUsr(user);
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
@@ -76,45 +70,56 @@ export default class Secret extends Component {
     //       visits: 1
     //    }
     // });
-    // user = "Suhey Garcia";
-    // console.log(this.validUsr(user));
+    let derpy = new Promise((resolve, reject) => {
+      if (this.validUsr(user)) resolve(true)
+      else resolve(true)
+    })
+    derpy.then((value) => console.log(value))
     let deebee = this.state.db;
-    let deebs = this.state.data;
+    console.log(deebee);
+    // let deebs = this.state.data;
     let today = this.dateConversion().replace(/\//g, "-");
-    console.log(deebs[user]["signInLog"].hasOwnProperty(today));
-
+    // console.log(deebs[user]["signInLog"].hasOwnProperty(today));
+    user = "Franklin"
     let reff = this.state.db.ref("/users");
     let signInLog = `/users/${user}/signInLog`;
-    if (this.validUsr(user)) {
-       if (deebs[user]["signInLog"].hasOwnProperty(today)) {
-        console.log("MATCHES");
-        reff.once("value").then((snap) => {
-          //
-          snap.forEach(childSnap => {
-            // let name = childSnap.key;
-            let count = 1;
-            if (childSnap.child(`signInLog/${today}`) == null) {
+    reff.once("value").then((snap) => {
+        let nosed = snap.exportVal();
+        // console.log(snap.exportVal());
+        snap.forEach(childSnap => {
+        let name = childSnap.key;
+        console.log(name, user);
+        if (Object.keys(nosed).includes(user)) {
+          console.log("MATCHES");
+            let count;
+            if (childSnap.child(`signInLog/${today}`) !== null) {
             // if (deebs[user]["signInLog"].hasOwnProperty(today)) {
-
+                // console.log(childSnap.child(`signInLog/${today}/visits`).val());
+                console.log("is today");
+                count = childSnap.child(`signInLog/${today}/visits`).val();
+                // count += 1;
+                console.log(count, "???");
+                this.updateVisits(deebee, signInLog, user, today, count);
+                this.updateLoginTime(deebee, signInLog, today);
+                return true;
+            } else if (childSnap.child(`signInLog/${today}`) == null) {
+                console.log("no today");
+                count = 1;
                 deebee.ref(signInLog).set(today);
                 this.updateVisits(deebee, signInLog, today, count);
                 this.updateLoginTime(deebee, signInLog, today);
                 return true;
-            } else {
-                // (`/signInLog/${today}/visits`).val() + 1;
-                console.log("yo");
-                count = Object.keys(deebs[user]["signInLog"]).length + 1;
-                this.updateVisits(deebee, signInLog, today, count);
-                this.updateLoginTime(deebee, signInLog, today);
             // deebee
             //   .ref(`${signInLog}/${today}`)
             //   .child("lastLogin")
             //   .set(this.timeStamp());
-                return true;
+                // return true;
+                //
+                //
+              } else {
+                return "";
               }
-            })
-          })
-        }
+              return true;
     } else {
         console.log("NO MATCHES!");
         deebee.ref(`/users/${user}`)
@@ -129,7 +134,10 @@ export default class Secret extends Component {
                 }
               });
         return false;
-    }
+      }
+      })
+    })
+  // })
   };
 
   createUsr = (db, user, today) => {
@@ -146,9 +154,15 @@ export default class Secret extends Component {
   };
 
 
-  updateVisits = (db, path, day, count) => {
+  updateVisits = (db, path, user, day, count) => {
+    console.log("update visits____________");
+    console.log("1, ",db);
+    console.log("2, ", path);
+    console.log("3, ", day);
+    console.log("4, ", count);
+    count++;
     return db
-          .ref(`${path}/${day}`)
+          .ref(`/users/${user}/signInLog/${day}`)
           .child("visits")
           .set(count);
   }

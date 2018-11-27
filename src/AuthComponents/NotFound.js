@@ -5,6 +5,7 @@ export default class NotFound extends Component {
         return (
             <div>
                 Page Not Found! Please Login!
+                <a href="/">HOME</a>
             </div>
         )
     }
