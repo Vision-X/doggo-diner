@@ -25,7 +25,7 @@ export default class Secret extends Component {
     })
       .then(response => response.json())
       .then(data => this.setName(data.name))
-      // .then(data => this.findUsr(data.name))
+      // .then(data => this.validUsr(data.name))
       .catch(error => console.log(error));
   };
 
@@ -33,91 +33,138 @@ export default class Secret extends Component {
     this.setState({
       name: name,
       fetched: true
-    }, localStorage.setItem("name", name));
-    this.checkUsr(name);
+    }, this.stashData(name))
     //
+    localStorage.setItem("name", name);
   };
 
-  findUsr = user => {
+  stashData = user => {
+    let snoog;
     let userList = this.state.db.ref("/users");
     userList.once("value").then(snap => {
-      snap.forEach(babySnap => {
-        if (babySnap.key == user) {
-          console.log("THEY EXIST BIHHH");
-          return true;
-        } else {
-          console.log("NO RECORDS FOUND BIHHH");
-          return false;
-
-        }
-      })
+      snoog = snap.exportVal();
+      this.setState({ data: snoog })
     })
-  };
+    // .then(()=>console.log(this.validUsr(user, snoog)));
+    // })
+    // for (let key in snoog) {
+    //   if (key == user) {
+    //     console.log("THEY EXIST BIHHH");
+    //     return true;
+    //   } else {
+    //     console.log("NO RECORDS FOUND BIHHH");
+    //     return false;
+    //   }
+    // }
+    // console.log(snoog);
+}
+
+  validUsr = user => {
+    if (this.state.data && Object.keys(this.state.data).length) {
+      return this.state.data.hasOwnProperty(user);
+    }
+  }
 
   checkUsr = user => {
     console.log("checkUsr called");
     // this.state.db.ref("/users").set({ })
     // this.state.db.ref(`/users/${user}`).set({
-    //     joined: this.dateConversion(),
+    //     joined: this.timeStamp(),
     //     recent: "",
     //     signInLog: {
-    //       lastLogin: Date.now(),
+    //       lastLogin: this.timeStamp(),
     //       visits: 1
     //    }
     // });
+    // user = "Suhey Garcia";
+    // console.log(this.validUsr(user));
     let deebee = this.state.db;
-    let reff = this.state.db.ref("/users");
+    let deebs = this.state.data;
     let today = this.dateConversion().replace(/\//g, "-");
-    reff.once("value").then(snap => {
-      snap.forEach(childSnap => {
-        let name = childSnap.key;
-        let logPath = `/users/${user}/signInLog`;
-        if (user === name) {
-          //console.log("MATCHES");
-          let count = 1;
-          if (childSnap.child(`signInLog/${today}`) == null) {
-            deebee.ref(logPath).set(today);
-            deebee
-              .ref(`${logPath}/${today}`)
-              .child("visits")
-              .set(count);
-            return true;
-          } else {
-            count = childSnap.child(`/signInLog/${today}/visits`).val() + 1;
-            deebee
-              .ref(`${logPath}/${today}`)
-              .child("visits")
-              .set(count);
-            deebee
-              .ref(`${logPath}/${today}`)
-              .child("lastLogin")
-              .set(this.timeStamp());
-            return true;
-          }
-        } else {
-          //console.log("NO MATCHES!");
-          deebee.ref(`/users/${user}`).set({
-            joined: this.dateConversion(),
-            recent: "",
-            signInLog: {
-              [`${today}`]: {
-                lastLogin: this.timeStamp(),
-                visits: 1
+    console.log(deebs[user]["signInLog"].hasOwnProperty(today));
+
+    let reff = this.state.db.ref("/users");
+    let signInLog = `/users/${user}/signInLog`;
+    if (this.validUsr(user)) {
+       if (deebs[user]["signInLog"].hasOwnProperty(today)) {
+        console.log("MATCHES");
+        reff.once("value").then((snap) => {
+          //
+          snap.forEach(childSnap => {
+            // let name = childSnap.key;
+            let count = 1;
+            if (childSnap.child(`signInLog/${today}`) == null) {
+            // if (deebs[user]["signInLog"].hasOwnProperty(today)) {
+
+                deebee.ref(signInLog).set(today);
+                this.updateVisits(deebee, signInLog, today, count);
+                this.updateLoginTime(deebee, signInLog, today);
+                return true;
+            } else {
+                // (`/signInLog/${today}/visits`).val() + 1;
+                console.log("yo");
+                count = Object.keys(deebs[user]["signInLog"]).length + 1;
+                this.updateVisits(deebee, signInLog, today, count);
+                this.updateLoginTime(deebee, signInLog, today);
+            // deebee
+            //   .ref(`${signInLog}/${today}`)
+            //   .child("lastLogin")
+            //   .set(this.timeStamp());
+                return true;
               }
-            }
-          });
-          return false;
+            })
+          })
         }
-      });
+    } else {
+        console.log("NO MATCHES!");
+        deebee.ref(`/users/${user}`)
+              .set({
+                joined: this.timeStamp(),
+                recent: "",
+                signInLog: {
+                  [`${today}`]: {
+                    lastLogin: this.timeStamp(),
+                    visits: 1
+                  }
+                }
+              });
+        return false;
+    }
+  };
+
+  createUsr = (db, user, today) => {
+    db.ref(`/users/${user}`).set({
+      joined: this.timeStamp(),
+      recent: "",
+      signInLog: {
+        [`${today}`]: {
+          lastLogin: this.timeStamp(),
+          visits: 1
+        }
+      }
     });
   };
+
+
+  updateVisits = (db, path, day, count) => {
+    return db
+          .ref(`${path}/${day}`)
+          .child("visits")
+          .set(count);
+  }
+////
+  updateLoginTime = (db, path, day) => {
+    return db
+          .ref(`${path}/${day}`)
+          .child("lastLogin")
+          .set(this.timeStamp());
+  }
 
   timeStamp = () => {
     return new Date().toLocaleString('en-US', { timeZone: 'America/Denver' })
   }
 
   dateConversion = () => {
-    // let date = new Date();
     let today = new Date();
     let dd = today.getDate();
     let mm = today.getMonth() + 1;
@@ -128,18 +175,6 @@ export default class Secret extends Component {
     today = mm + "/" + dd + "/" + yyyy;
     return today;
   };
-
-  getName = () => localStorage.getItem("name");
-
-  // loadDB = () => {
-  //   if (this.state.db) {
-  //     this.state.db.ref().on("value", function(snapshot) {
-  //       console.log(snapshot.val());
-  //     })
-  //   } else {
-  //     console.log("waitingggg");
-  //   }
-  // }
 
   dataLoaded = () => {
     if (this.count < 100) {
