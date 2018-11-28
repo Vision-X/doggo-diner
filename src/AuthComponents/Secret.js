@@ -24,7 +24,7 @@ export default class Secret extends Component {
       }
     })
       .then(response => response.json())
-      .then(data => this.setName(data.name))
+      .then(data => this.saveDBToState(data.name))
       // .then(data => this.validUsr(data.name))
       .catch(error => console.log(error));
   };
@@ -43,24 +43,60 @@ export default class Secret extends Component {
     let userList = this.state.db.ref("/users");
     userList.once("value").then(snap => {
       snoog = snap.exportVal();
-      this.setState({ data: snoog })
+      this.setState({ data: snoog,
+                      name: user,
+                      fetched: true
+                    })
+    }).then(() => {
+      //
+      if (this.state.data && this.state.name.length) {
+        this.isValidUsr(this.state.name);
+        console.log(this.state.data);
+      }
     })
-    this.checkUsr(user)
+  }
+
+  updateDB = () => {
+    let token = localStorage.getItem("access_token");
+    return fetch("https://3788high.auth0.com/userinfo", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => res.json())
+      .then(data => this.saveDBToState(data.name))
+      .catch()
   }
 
   validUsr = user => {
-    if (this.state.data && Object.keys(this.state.data).length) {
+    console.log("YOLO");
+    // if (this.state.data && Object.keys(this.state.data).length > 1) {
+      console.log("DOLO");
+      let ayy = Object.keys(this.state.data);
+      console.log(user);
+      console.log(ayy.map(u => console.log(u)));
       if (this.state.data.hasOwnProperty(user)) {
-        // this.checkUsr(user);
+        console.log("SOLO");
+        this.checkUsr(user);
         return true;
       } else {
+        // this.checkUsr(user);
         return false;
       }
-    }
+    // }
+  }
+
+  isValidUsr = user => {
+    let derpy = new Promise((resolve, reject) => {
+      if (this.validUsr(user)) return resolve(true)
+      else return resolve(true)
+    })
+    derpy.then((value) => console.log(value))
   }
 
   checkUsr = user => {
     console.log("checkUsr called");
+    // this.updateDB(user);
     // this.state.db.ref("/users").set({ })
     // this.state.db.ref(`/users/${user}`).set({
     //     joined: this.timeStamp(),
@@ -70,20 +106,22 @@ export default class Secret extends Component {
     //       visits: 1
     //    }
     // });
-    let derpy = new Promise((resolve, reject) => {
-      if (this.validUsr(user)) resolve(true)
-      else resolve(true)
-    })
-    derpy.then((value) => console.log(value))
+
+
+    // let derpy = new Promise((resolve, reject) => {
+    //   if (this.validUsr(user)) resolve(true)
+    //   else resolve(true)
+    // })
+    // derpy.then((value) => console.log(value))
     let deebee = this.state.db;
     console.log(deebee);
     // let deebs = this.state.data;
     let today = this.dateConversion().replace(/\//g, "-");
     // console.log(deebs[user]["signInLog"].hasOwnProperty(today));
-    user = "Franklin"
+    // user = "Franklin"
     let reff = this.state.db.ref("/users");
     let signInLog = `/users/${user}/signInLog`;
-    reff.once("value").then((snap) => {
+    reff.on("value", ((snap) => {
         let nosed = snap.exportVal();
         // console.log(snap.exportVal());
         snap.forEach(childSnap => {
@@ -137,6 +175,7 @@ export default class Secret extends Component {
       }
       })
     })
+  )
   // })
   };
 
