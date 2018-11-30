@@ -45,18 +45,26 @@ export default class Secret extends Component {
     console.log("saveDBCopy");
     console.log("user ", user);
     // let user = this.state.name;
+    user = "00001"
     let snoog;
     let userList = this.state.db.ref("/users");
     userList.once("value").then(snap => {
       snoog = snap.exportVal();
-      this.setState({ data: snoog,
+      this.setState({
+        data: snoog,
         name: user,
         fetched: true
       })
     }).then(() => this.lawgState())
-      .then(() =>  {
+      .then(() => {
+        // CHECK IF USER EXISTS
         if (this.userExists()) {
-
+          // IF USER EXISTS BUT TODAY DOESNOT EXIST, CREATDAY, ELSE UPDATEDAY
+          return (!this.todayExists()) ? this.createDay() : this.updateVisits()
+        } else {
+          // USER DOESNT EXIST, CREATE THEM, THEN REFETCH
+          this.createUser();
+          this.fetchDB();
         }
       })
     //check userExists
@@ -93,12 +101,14 @@ export default class Secret extends Component {
         console.log("SOLO");
         // return true;
         if (this.todayExists()) {
-          this.updateVisits();
+          // this.updateVisits();
           // this.createDay();
           //
           console.log("todayExists");
+          return true;
         } else {
           console.log("todayDoesntExist");
+          return false;
           // this.createDay()
           // this.updateVisits()
         }
@@ -118,7 +128,7 @@ export default class Secret extends Component {
             signInLog: {
               [`${today}`]: {
                 lastLogin: this.timeStamp(),
-                visits: 1
+                visits: 0
               }
             }
           })
@@ -215,7 +225,6 @@ export default class Secret extends Component {
       console.log(this.count);
     }
     if (this.state.fetched && this.state.name) {
-      console.log("YOLO");
       return (
         <div>
           <h3>Welcome, {this.state.name}</h3>
