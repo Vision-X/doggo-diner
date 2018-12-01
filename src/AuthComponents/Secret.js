@@ -13,8 +13,6 @@ export default class Secret extends Component {
     };
   };
 
-  count = 0;
-
   fetchDB = () => {
     console.log("fetchDB");
     let token = localStorage.getItem("access_token");
@@ -49,7 +47,6 @@ export default class Secret extends Component {
       fetchedDB = snap.exportVal();
       this.setState({
         data: fetchedDB,
-        name: user,
         fetched: true
       })
     }).then(() => this.lawgState())
@@ -61,7 +58,6 @@ export default class Secret extends Component {
           } else {
             this.updateVisits();
             this.updateLoginTime();
-            //
           }
         } else {
           // USER DOESNT EXIST, CREATE THEM, THEN REFETCH
@@ -78,15 +74,15 @@ export default class Secret extends Component {
       console.log("we have state data!!!");
       resolve(true);
     } else {
-      // resolve(false)
+      reject(false);
     }
   });
 
   saveName = user => this.setState({ name: user }, this.logName());
 
-  logName = () => console.log(this.state.name);
+  logName = () => console.log("logName... ", this.state.name);
 
-  lawgState = () => console.log("lawgState...", this.state);
+  lawgState = () => console.log("lawgState... ", this.state);
 
   userExists = () => {
     console.log("userExists fn ____________");
@@ -98,7 +94,7 @@ export default class Secret extends Component {
   };
 
   createUser = () => {
-    console.log("createUser_____________");
+    console.log("createUser fn _____________");
     let user = this.state.name;
     let today = this.dateConversion();
     this.state.db.ref(`/users/${user}`).set({
@@ -132,11 +128,11 @@ export default class Secret extends Component {
   // };
 
   updateVisits = () => {
-    console.log("updateVisits____________");
+    console.log("updateVisits fn ____________");
     let deebo = this.state.db;
     let user = this.state.name;
     let day = this.dateConversion();
-    let count = this.state.data[`${user}`].signInLog[`${day}`].visits || 0;
+    let count = this.state.data[`${user}`].signInLog[`${day}`].visits;
     count++;
     return deebo
       .ref(`/users/${user}/signInLog/${day}`)
@@ -144,9 +140,8 @@ export default class Secret extends Component {
       .set(count);
   };
 
-
   updateLoginTime = () => {
-    console.log("updateLoginTime_____________");
+    console.log("updateLoginTime fn _____________");
     let db = this.state.db;
     let user = this.state.name;
     let day = this.dateConversion();
@@ -156,17 +151,16 @@ export default class Secret extends Component {
       .set(this.timeStamp());
   };
 
-
   todayExists = () => {
-    console.log("todayExists_____________");
+    console.log("todayExists fn _____________");
     let deebs = this.state.data;
     let user = this.state.name;
     let today = this.dateConversion();
     if (deebs[user]["signInLog"].hasOwnProperty(today)) {
-          console.log("today exists");
+          console.log("today exists!");
           return true;
     } else {
-      console.log("today doesnt exist");
+      console.log("today doesnt exist!");
       return false;
     }
   };
@@ -175,7 +169,7 @@ export default class Secret extends Component {
 
   timeStamp = () => {
     return new Date().toLocaleString('en-US', { timeZone: 'America/Denver' })
-  }
+  };
 
   dateConversion = () => {
     let today = new Date();
@@ -217,5 +211,4 @@ export default class Secret extends Component {
   render() {
     return this.dataLoaded();
   };
-
-};
+}
