@@ -11,9 +11,7 @@ export default class Secret extends Component {
       db: fire.database(),
       data: {}
     };
-    // this.fetchUsrData();
-    // this.fetchDB();
-  }
+  };
 
   count = 0;
 
@@ -45,20 +43,18 @@ export default class Secret extends Component {
     console.log("saveDBCopy");
     console.log("user ", user);
     // let user = this.state.name;
-    let snoog;
+    let fetchedDB;
     let userList = this.state.db.ref("/users");
     userList.once("value").then(snap => {
-      snoog = snap.exportVal();
+      fetchedDB = snap.exportVal();
       this.setState({
-        data: snoog,
+        data: fetchedDB,
         name: user,
         fetched: true
       })
     }).then(() => this.lawgState())
       .then(() => {
-        // CHECK IF USER EXISTS
         if (this.userExists()) {
-          // IF USER EXISTS BUT TODAY DOESNOT EXIST, CREATDAY, ELSE UPDATEDAY
           if (!this.todayExists()) {
             this.createDay();
             this.updateVisits();
@@ -95,15 +91,9 @@ export default class Secret extends Component {
   userExists = () => {
     console.log("userExists fn ____________");
     let user = this.state.name;
-    if (this.state.data && Object.keys(this.state.data).length > 1) {
+    if (this.state.data && Object.keys(this.state.data).length > 1 && user !== undefined) {
       let ayy = Object.keys(this.state.data);
-      if (this.state.data.hasOwnProperty(user)) {
-          console.log("User Exists");
-          return true;
-      } else {
-          console.log("User Doesnt Exist");
-          return false;
-        }
+      return (this.state.data.hasOwnProperty(user)) ? true : false;
     }
   };
 
@@ -149,10 +139,11 @@ export default class Secret extends Component {
     let count = this.state.data[`${user}`].signInLog[`${day}`].visits || 0;
     count++;
     return deebo
-          .ref(`/users/${user}/signInLog/${day}`)
-          .child("visits")
-          .set(count);
-  }
+      .ref(`/users/${user}/signInLog/${day}`)
+      .child("visits")
+      .set(count);
+  };
+
 
   updateLoginTime = () => {
     console.log("updateLoginTime_____________");
@@ -160,10 +151,11 @@ export default class Secret extends Component {
     let user = this.state.name;
     let day = this.dateConversion();
     return db
-          .ref(`/users/${user}/signInLog/${day}`)
-          .child("lastLogin")
-          .set(this.timeStamp());
-  }
+      .ref(`/users/${user}/signInLog/${day}`)
+      .child("lastLogin")
+      .set(this.timeStamp());
+  };
+
 
   todayExists = () => {
     console.log("todayExists_____________");
@@ -198,20 +190,16 @@ export default class Secret extends Component {
   };
 
   dataLoaded = () => {
-    if (this.count < 100) {
-      this.count++;
-      console.log(this.count);
-    }
     if (this.state.fetched && this.state.name) {
       return (
-        <div>
+        <>
           <h3>Welcome, {this.state.name}</h3>
           Secret Area
           <br />
           <a href="/">Go Home</a>
           <br />
           <button onClick={this.props.auth.logout}>Logout</button>
-        </div>
+        </>
       );
     } else {
       return (
@@ -222,29 +210,12 @@ export default class Secret extends Component {
     }
   };
 
-
-///////////////////////////////
-//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//
-//////////////////////////////
-
-  fetchUsrData = () => {
-    let token = localStorage.getItem("access_token");
-    return fetch("https://3788high.auth0.com/userinfo", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(response => response.json())
-      .then(data => this.saveDBToState(data.name))
-      .catch(error => console.log(error));
-  };
-
   componentDidMount() {
     this.fetchDB();
-  }
+  };
 
   render() {
     return this.dataLoaded();
-  }
-}
+  };
+
+};
