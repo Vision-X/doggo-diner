@@ -40,7 +40,6 @@ export default class Secret extends Component {
   saveDBCopy = user => {
     console.log("saveDBCopy");
     console.log("user ", user);
-    // let user = this.state.name;
     let fetchedDB;
     let userList = this.state.db.ref("/users");
     userList.once("value").then(snap => {
