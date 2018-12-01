@@ -45,7 +45,6 @@ export default class Secret extends Component {
     console.log("saveDBCopy");
     console.log("user ", user);
     // let user = this.state.name;
-    user = "Suhey Garcia"
     let snoog;
     let userList = this.state.db.ref("/users");
     userList.once("value").then(snap => {
@@ -109,33 +108,33 @@ export default class Secret extends Component {
   };
 
   createUser = () => {
+    console.log("createUser_____________");
     let user = this.state.name;
     let today = this.dateConversion();
-    this.state.db.ref(`/users/${user}`)
-          .set({
-            joined: this.timeStamp(),
-            recent: "",
-            signInLog: {
-              [`${today}`]: {
-                lastLogin: this.timeStamp(),
-                visits: 0
-              }
-            }
-          })
+    this.state.db.ref(`/users/${user}`).set({
+      joined: this.timeStamp(),
+      recent: "",
+      signInLog: {
+        [`${today}`]: {
+          lastLogin: this.timeStamp(),
+          visits: 0
+        }
+      }
+    });
   };
 
   createDay = () => {
     console.log("createDay fn _____________");
     let today = this.dateConversion();
     let user = this.state.name;
-    user = "Suhey Garcia"
     this.state.db.ref(`/users/${user}/signInLog`).update({
-                    [`${today}`]: {
-                      lastLogin: this.timeStamp(),
-                      visits: 1
-                    }
-  });
-}
+      [`${today}`]: {
+        lastLogin: this.timeStamp(),
+        visits: 1
+      }
+    });
+  };
+
 
   // updateUser = () => {
   //   this.updateLoginTime();
@@ -147,8 +146,6 @@ export default class Secret extends Component {
     let deebo = this.state.db;
     let user = this.state.name;
     let day = this.dateConversion();
-    user = "Suhey Garcia"
-    // let dayIsTrue = this.state.data[`${user}`].signInLog.hasOwnProperty(day)
     let count = this.state.data[`${user}`].signInLog[`${day}`].visits || 0;
     count++;
     return deebo
@@ -158,6 +155,7 @@ export default class Secret extends Component {
   }
 
   updateLoginTime = () => {
+    console.log("updateLoginTime_____________");
     let db = this.state.db;
     let user = this.state.name;
     let day = this.dateConversion();
@@ -168,9 +166,9 @@ export default class Secret extends Component {
   }
 
   todayExists = () => {
+    console.log("todayExists_____________");
     let deebs = this.state.data;
     let user = this.state.name;
-    user = "Suhey Garcia";
     let today = this.dateConversion();
     if (deebs[user]["signInLog"].hasOwnProperty(today)) {
           console.log("today exists");
@@ -180,10 +178,6 @@ export default class Secret extends Component {
       return false;
     }
   };
-
-  // updateDay = () => {
-  //
-  // };
 
   updateDBCopy = () => { this.fetchDB() };
 
