@@ -189,16 +189,14 @@ export default class Secret extends Component {
           <button className="btn">
             <a href="/">Go Home</a>
           </button>
-          <br />
-          <br />
           <button className="btn" onClick={this.props.auth.logout}>Logout</button>
           <article className="doggo-dashboard">
             <h3>Doggo Dashboard</h3>
             <div className="card-container flex-col">
               <div className="doggo-card flex-row">
                 <div className="doggo-title">
-                  <img src="" alt="" />
                   <h4>Franklin</h4>
+                  <img src="" alt="" />
                 </div>
                 <div className="status">
                   <div>
@@ -214,8 +212,8 @@ export default class Secret extends Component {
 
               <div className="doggo-card flex-row">
                 <div className="doggo-title">
-                  <img src="" alt="" />
                   <h4>Pawblo</h4>
+                  <img src="" alt="" />
                 </div>
                 <div className="status">
                   <div>
@@ -231,8 +229,8 @@ export default class Secret extends Component {
 
               <div className="doggo-card flex-row">
                 <div className="doggo-title">
-                  <img src="" alt="" />
                   <h4>Zero</h4>
+                  <img src="" alt="" />
                 </div>
                 <div className="status">
                   <div>
