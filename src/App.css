@@ -1,20 +1,104 @@
-.App {
-  text-align: center;
-  color: whitesmoke;
-  background-color: steelblue;
+body {
+  width: 100vw;
+  height: 100vh;
 }
 
-.App-header {
-  height: 150px;
-  padding: 20px;
-  color: rgb(255, 255, 255);
+header {
+  height: 10vh;
+  width: 100%;
+  background-color: #3B4A3F;
+  color: white;
 }
 
-.App-title {
-  font-size: 1.5em;
-  text-shadow: 1px 1px 3px black;
+header h2 {
+  text-decoration: overline underline;
+  padding: 4px;
 }
 
-.App-intro {
-  font-size: large;
+section {
+  background-image: linear-gradient(to right bottom, #00e7ff, #5bdbdb, #7dcdbf, #92beac, #9eb0a2);
+  background-image: url('./hardwood.jpg');
+  /* background-color: rgba(255, 255, 255, 0.1); */
+  background-blend-mode: lighten;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 90vh;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: #00E380;
+}
+
+article {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-row {
+  display: flex;
+}
+
+.flex-col {
+  display: column;
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+}
+
+.nums {
+  color: #00E380;
+}
+
+.btn {
+  border-radius: 0;
+  width: 6rem;
+  height: 2rem;
+  border: none;
+  /* box-shadow: 2px 2px 2px 1px gray; */
+  background-color: black;
+  color: white;
+}
+
+
+.card-container {
+  width: 90%;
+}
+
+.doggo-card h4 {
+  width: 30%;
+  /* align-self: center; */
+}
+
+.doggo-card {
+  height: 8rem;
+  background-color: rgba(255, 255, 255, 0.4);
+  outline: 1px solid black;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.doggo-title {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+.doggo-title h4 {
+  border: 1px solid green;
+
+}
+
+.status {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
 }

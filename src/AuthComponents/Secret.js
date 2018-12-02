@@ -185,14 +185,70 @@ export default class Secret extends Component {
   dataLoaded = () => {
     if (this.state.fetched && this.state.name) {
       return (
-        <>
-          <h3>Welcome, {this.state.name}</h3>
-          Secret Area
+        <section>
+          <button className="btn">
+            <a href="/">Go Home</a>
+          </button>
           <br />
-          <a href="/">Go Home</a>
           <br />
-          <button onClick={this.props.auth.logout}>Logout</button>
-        </>
+          <button className="btn" onClick={this.props.auth.logout}>Logout</button>
+          <article className="doggo-dashboard">
+            <h3>Doggo Dashboard</h3>
+            <div className="card-container flex-col">
+              <div className="doggo-card flex-row">
+                <div className="doggo-title">
+                  <img src="" alt="" />
+                  <h4>Franklin</h4>
+                </div>
+                <div className="status">
+                  <div>
+                    <p>Breakfast</p>
+                    <div className="bfast-status">[ ]</div>
+                  </div>
+                  <div>
+                    <p>Dinner</p>
+                    <div className="dinner-status">[ ]</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="doggo-card flex-row">
+                <div className="doggo-title">
+                  <img src="" alt="" />
+                  <h4>Pawblo</h4>
+                </div>
+                <div className="status">
+                  <div>
+                    <p>Breakfast</p>
+                    <div className="bfast-status">[ ]</div>
+                  </div>
+                  <div>
+                    <p>Dinner</p>
+                    <div className="dinner-status">[ ]</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="doggo-card flex-row">
+                <div className="doggo-title">
+                  <img src="" alt="" />
+                  <h4>Zero</h4>
+                </div>
+                <div className="status">
+                  <div>
+                    <p>Breakfast</p>
+                    <div className="bfast-status">[ ]</div>
+                  </div>
+                  <div>
+                    <p>Dinner</p>
+                    <div className="dinner-status">[ ]</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </article>
+        </section>
       );
     } else {
       return (
