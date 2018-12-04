@@ -128,15 +128,19 @@ export default class Secret extends Component {
 
   updateVisits = () => {
     console.log("updateVisits fn ____________");
-    let deebo = this.state.db;
+    let db = this.state.db;
     let user = this.state.name;
     let day = this.dateConversion();
-    let count = this.state.data[`${user}`].signInLog[`${day}`].visits;
-    count++;
-    return deebo
-      .ref(`/users/${user}/signInLog/${day}`)
-      .child("visits")
-      .set(count);
+    let count;
+    // if (this.state.data && Object.keys(this.state.data).length > 1) {
+    if (this.state.fetched) {
+      count = this.state.data[`${user}`].signInLog[`${day}`].visits;
+      count++;
+      return db
+        .ref(`/users/${user}/signInLog/${day}`)
+        .child("visits")
+        .set(count);
+      }
   };
 
   updateLoginTime = () => {
@@ -152,10 +156,10 @@ export default class Secret extends Component {
 
   todayExists = () => {
     console.log("todayExists fn _____________");
-    let deebs = this.state.data;
+    let deebee = this.state.data;
     let user = this.state.name;
     let today = this.dateConversion();
-    if (deebs[user]["signInLog"].hasOwnProperty(today)) {
+    if (deebee[user]["signInLog"].hasOwnProperty(today)) {
           console.log("today exists!");
           return true;
     } else {
@@ -195,7 +199,7 @@ export default class Secret extends Component {
             <div className="card-container flex-col">
               <div className="doggo-card flex-row">
                 <div className="doggo-title">
-                  <h4>Franklin</h4>
+                  <h4>FRANKLIN</h4>
                   <img src="" alt="" />
                 </div>
                 <div className="status">
@@ -212,7 +216,7 @@ export default class Secret extends Component {
 
               <div className="doggo-card flex-row">
                 <div className="doggo-title">
-                  <h4>Pawblo</h4>
+                  <h4>PAWBLO</h4>
                   <img src="" alt="" />
                 </div>
                 <div className="status">
@@ -229,7 +233,7 @@ export default class Secret extends Component {
 
               <div className="doggo-card flex-row">
                 <div className="doggo-title">
-                  <h4>Zero</h4>
+                  <h4>ZERO</h4>
                   <img src="" alt="" />
                 </div>
                 <div className="status">

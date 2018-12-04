@@ -1,12 +1,21 @@
 body {
   width: 100vw;
   height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+h2,
+h3,
+h4 {
+  font-weight: 400;
 }
 
 header {
   height: 10vh;
   width: 100%;
-  background-color: #3B4A3F;
+  /* background-color: #3B4A3F; */
+  /* background-image: linear-gradient(to right top, #6ee674, #00dca3, #00cdc6, #00bbd7, #32a7d3, #3e9dd4, #5291d1, #6685cb, #5e7eda, #5b76e7, #606cf2, #6c5ffb); */
+  background-image: linear-gradient(to right, #7d019b, #69028f, #560283, #440277, #31016a);
   color: white;
 }
 
@@ -16,12 +25,17 @@ header h2 {
 }
 
 section {
-  background-image: linear-gradient(to right bottom, #00e7ff, #5bdbdb, #7dcdbf, #92beac, #9eb0a2);
-  background-image: url('./hardwood.jpg');
+  /* background-image: linear-gradient(to right bottom, #00e7ff, #5bdbdb, #7dcdbf, #92beac, #9eb0a2); */
+  /* background-image: url('./hardwood.jpg'); */
   /* background-color: rgba(255, 255, 255, 0.1); */
+  /* background-image: linear-gradient(to right top, #6ee674, #00dca3, #00cdc6, #00bbd7, #32a7d3, #3e9dd4, #5291d1, #6685cb, #5e7eda, #5b76e7, #606cf2, #6c5ffb); */
+  /* background-image: linear-gradient(to right, #085ad5, #1445ba, #1630a0, #141b86, #0f036d); */
+  background-image: linear-gradient(to right, #394667, #3a4768, #3b4769, #3c486a, #3d486b);
   background-blend-mode: lighten;
   background-size: cover;
   background-repeat: no-repeat;
+  color: white;
+  font-weight: 300;
   min-height: 90vh;
 }
 
@@ -39,6 +53,11 @@ article {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+article h3 {
+  color: white;
+  margin: 1rem;
 }
 
 .flex-row {
@@ -60,12 +79,16 @@ article {
 
 .btn {
   border-radius: 0;
-  width: 6rem;
+  width: 50%;
   height: 2rem;
   border: none;
   /* box-shadow: 2px 2px 2px 1px gray; */
   background-color: black;
   color: white;
+}
+
+.btn:hover {
+  outline: 1px solid white;
 }
 
 
@@ -79,35 +102,45 @@ article {
 }
 
 .doggo-card {
-  height: 24vh;
-  background-color: rgba(255, 255, 255, 0.4);
-  outline: 1px solid black;
+  height: 18vh;
+  /* background-color: rgba(255, 255, 255, 0.4); */
+  /* background-image: linear-gradient(to right, #5067a1, #4d6297, #4b5c8d, #485784, #45527a); */
+  background-image: linear-gradient(to right, #475b8e, #435482, #3e4d77, #3a476c, #354061);
+  box-shadow: 1px 1px 1px 1px #383E4F;
+  /* box-shadow: 4px 4px 0px 4px #383E4F; */
+  border-radius: 1rem;
   width: 100%;
   justify-content: space-evenly;
   padding: 1rem 0;
+  margin-bottom: 1rem;
 }
 
 .doggo-title {
   /* border: 1px solid black; */
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
+  align-self: center;
+  justify-content: space-between;
+  height: 90%;
 }
 
 .doggo-title h4 {
-  /* border: 1px solid green; */
   width: 100%;
   text-align: center;
 }
 
 .doggo-title img {
-  height: 150px;
-  width: 150px;
+  height: 100px;
+  width: 100px;
   background-color: gray;
+  border-radius: 6rem;
+  box-shadow: 0 0 1px 1px #383E4F;
 }
 
 .status {
-  width: 50%;
+  /* width: 50%; */
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
+  height: 100%;
 }
