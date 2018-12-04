@@ -205,11 +205,19 @@ export default class Secret extends Component {
                 <div className="status">
                   <div>
                     <p>Breakfast</p>
-                    <div className="bfast-status">[ ]</div>
+                    <div className="bfast-status">
+                      <p>[ ]</p>
+                      <a href="">FED</a>
+                    </div>
+                    <small>{this.timeStamp()}</small>
                   </div>
                   <div>
                     <p>Dinner</p>
-                    <div className="dinner-status">[ ]</div>
+                    <div className="dinner-status">
+                      <p>[ ]</p>
+                      <a href="">FED</a>
+                    </div>
+                    <small>{this.timeStamp()}</small>
                   </div>
                 </div>
               </div>
@@ -222,11 +230,19 @@ export default class Secret extends Component {
                 <div className="status">
                   <div>
                     <p>Breakfast</p>
-                    <div className="bfast-status">[ ]</div>
+                    <div className="bfast-status">
+                      <p>[ ]</p>
+                      <a href="">FED</a>
+                    </div>
+                    <small>{this.timeStamp()}</small>
                   </div>
                   <div>
                     <p>Dinner</p>
-                    <div className="dinner-status">[ ]</div>
+                    <div className="dinner-status">
+                      <p>[ ]</p>
+                      <a href="">FED</a>
+                    </div>
+                  <small>{this.timeStamp()}</small>
                   </div>
                 </div>
               </div>
@@ -239,11 +255,19 @@ export default class Secret extends Component {
                 <div className="status">
                   <div>
                     <p>Breakfast</p>
-                    <div className="bfast-status">[ ]</div>
+                    <div className="bfast-status">
+                      <p>[ ]</p>
+                      <a href="">FED</a>
+                    </div>
+                    <small>{this.timeStamp()}</small>
                   </div>
                   <div>
                     <p>Dinner</p>
-                    <div className="dinner-status">[ ]</div>
+                    <div className="dinner-status">
+                      <p>[ ]</p>
+                      <a href="">FED</a>
+                    </div>
+                    <small>{this.timeStamp()}</small>
                   </div>
                 </div>
               </div>
