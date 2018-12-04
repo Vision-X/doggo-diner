@@ -20,13 +20,13 @@ header {
 }
 
 header h2 {
-  text-decoration: overline underline;
+  font-size: 2rem;
   padding: 4px;
+  text-decoration: overline underline;
 }
 
 section {
   /* background-image: linear-gradient(to right bottom, #00e7ff, #5bdbdb, #7dcdbf, #92beac, #9eb0a2); */
-  /* background-image: url('./hardwood.jpg'); */
   /* background-color: rgba(255, 255, 255, 0.1); */
   /* background-image: linear-gradient(to right top, #6ee674, #00dca3, #00cdc6, #00bbd7, #32a7d3, #3e9dd4, #5291d1, #6685cb, #5e7eda, #5b76e7, #606cf2, #6c5ffb); */
   /* background-image: linear-gradient(to right, #085ad5, #1445ba, #1630a0, #141b86, #0f036d); */
@@ -91,6 +91,10 @@ article h3 {
   outline: 1px solid white;
 }
 
+.feed-btn {
+  height: 1.5rem;
+  background-image: linear-gradient(to right, #7d019b, #69028f, #560283, #440277, #31016a);
+}
 
 .card-container {
   width: 90%;
@@ -105,10 +109,11 @@ article h3 {
   height: 150px;
   width: 100%;
   /* background-color: rgba(255, 255, 255, 0.4); */
-  background-image: linear-gradient(to right, #475b8e, #435482, #3e4d77, #3a476c, #354061);
+  /* background-image: linear-gradient(to right, #475b8e, #435482, #3e4d77, #3a476c, #354061); */
+  background-image: linear-gradient(to right, #626b85, #57607c, #4b5573, #404a6a, #354061);
   border-radius: 1rem;
   box-shadow: 0 0 0 1px #383E4F;
-  justify-content: space-evenly;
+  justify-content: center;
   margin-bottom: 1rem;
   padding: 1% 0;
 }
@@ -130,9 +135,30 @@ article h3 {
 .doggo-title img {
   height: 100px;
   width: 100px;
-  background-color: gray;
+  /* background-color: gray; */
+  /* background-size: 150px 200px;
+  background-position: center; */
   border-radius: 6rem;
   box-shadow: 0 0 1px 1px #383E4F;
+}
+
+.frank {
+  background-image: url("./Franklin.jpg");
+  background-size: 150px 200px;
+  background-position: center;
+}
+
+.zero {
+  background-image: url("./Zero.jpg");
+  background-size: contain;
+  background-position: center;
+}
+
+.pawblo {
+  background-image: url("./Pawblo.jpg");
+  background-repeat: no-repeat;
+  background-size: 80px 140px;
+  background-position: center;
 }
 
 .status {
@@ -155,4 +181,33 @@ article h3 {
 small {
   font-size: 10px;
   color: gray;
+}
+
+@media screen and (min-width: 760px) {
+  .card-container {
+    width: 70%;
+  }
+
+  .status {
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+  }
+
+  small {
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .card-container {
+    width: 60%;
+  }
+
+}
+
+@media screen and (min-width: 1900px) {
+  .card-container {
+    width: 50%;
+  }
 }

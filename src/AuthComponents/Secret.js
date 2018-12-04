@@ -200,14 +200,14 @@ export default class Secret extends Component {
               <div className="doggo-card flex-row">
                 <div className="doggo-title">
                   <h4>FRANKLIN</h4>
-                  <img src="" alt="" />
+                  <img className="frank" src="" alt="" />
                 </div>
                 <div className="status">
                   <div>
                     <p>Breakfast</p>
                     <div className="bfast-status">
                       <p>[ ]</p>
-                      <a href="">FED</a>
+                      <button className="btn feed-btn">FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
                   </div>
@@ -215,7 +215,7 @@ export default class Secret extends Component {
                     <p>Dinner</p>
                     <div className="dinner-status">
                       <p>[ ]</p>
-                      <a href="">FED</a>
+                      <button className="btn feed-btn">FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
                   </div>
@@ -225,14 +225,14 @@ export default class Secret extends Component {
               <div className="doggo-card flex-row">
                 <div className="doggo-title">
                   <h4>PAWBLO</h4>
-                  <img src="" alt="" />
+                  <img className="pawblo" src="" alt="" />
                 </div>
                 <div className="status">
                   <div>
                     <p>Breakfast</p>
                     <div className="bfast-status">
                       <p>[ ]</p>
-                      <a href="">FED</a>
+                      <button className="btn feed-btn">FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
                   </div>
@@ -240,7 +240,7 @@ export default class Secret extends Component {
                     <p>Dinner</p>
                     <div className="dinner-status">
                       <p>[ ]</p>
-                      <a href="">FED</a>
+                      <button className="btn feed-btn">FEED</button>
                     </div>
                   <small>{this.timeStamp()}</small>
                   </div>
@@ -250,14 +250,14 @@ export default class Secret extends Component {
               <div className="doggo-card flex-row">
                 <div className="doggo-title">
                   <h4>ZERO</h4>
-                  <img src="" alt="" />
+                  <img className="zero" src="" alt="" />
                 </div>
                 <div className="status">
                   <div>
                     <p>Breakfast</p>
                     <div className="bfast-status">
                       <p>[ ]</p>
-                      <a href="">FED</a>
+                      <button className="btn feed-btn">FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
                   </div>
@@ -265,7 +265,7 @@ export default class Secret extends Component {
                     <p>Dinner</p>
                     <div className="dinner-status">
                       <p>[ ]</p>
-                      <a href="">FED</a>
+                      <button className="btn feed-btn">FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
                   </div>
