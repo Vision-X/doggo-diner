@@ -24,12 +24,12 @@ class App extends Component {
         mainComponent = <NotFound />;
     }
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">React Applications w/ Auth0 security</h1>
+      <>
+        <header className="flex-row center">
+          <h2><span className="nums">3788</span>High</h2>
         </header>
-        {mainComponent}
-      </div>
+          {mainComponent}
+      </>
     );
   }
 }
