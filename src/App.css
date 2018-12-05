@@ -13,11 +13,30 @@ h4 {
 header {
   height: 10vh;
   width: 100%;
-  /* background-color: #3B4A3F; */
   /* background-image: linear-gradient(to right top, #6ee674, #00dca3, #00cdc6, #00bbd7, #32a7d3, #3e9dd4, #5291d1, #6685cb, #5e7eda, #5b76e7, #606cf2, #6c5ffb); */
-  background-image: linear-gradient(to right, #7d019b, #69028f, #560283, #440277, #31016a);
+  background: linear-gradient(to right, #7d019b, #69028f, #560283, #440277, #31016a);
+  /* background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg); */
+  /* position: absolute; */
+  /* top: -198px; */
+  /* width: 6400px;
+  height: 198px; */
   color: white;
 }
+
+/* header::before {
+  content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg), linear-gradient(to right top, #6ee674, #00dca3, #00cdc6, #00bbd7, #32a7d3, #3e9dd4, #5291d1, #6685cb, #5e7eda, #5b76e7, #606cf2, #6c5ffb);
+  background-size: cover;
+  background-blend-mode: exclusion;
+	opacity: .4;
+  height: 10vh;
+  width: 100%;
+} */
 
 header h2 {
   font-size: 2rem;
@@ -82,18 +101,21 @@ article h3 {
   width: 50%;
   height: 2rem;
   border: none;
-  /* box-shadow: 2px 2px 2px 1px gray; */
   background-color: black;
   color: white;
 }
 
 .btn:hover {
-  outline: 1px solid white;
+  border: 1px solid white;
 }
 
 .feed-btn {
   height: 1.5rem;
   background-image: linear-gradient(to right, #7d019b, #69028f, #560283, #440277, #31016a);
+}
+
+.feed-btn:disabled {
+  background-color: grey;
 }
 
 .card-container {
@@ -103,6 +125,7 @@ article h3 {
 .doggo-card h4 {
   /* width: 30%; */
   /* align-self: center; */
+  color: #00E380;
 }
 
 .doggo-card {
@@ -133,9 +156,8 @@ article h3 {
 }
 
 .doggo-title img {
-  height: 100px;
-  width: 100px;
-  /* background-color: gray; */
+  height: 80px;
+  width: 80px;
   /* background-size: 150px 200px;
   background-position: center; */
   border-radius: 6rem;
@@ -144,7 +166,7 @@ article h3 {
 
 .frank {
   background-image: url("./Franklin.jpg");
-  background-size: 150px 200px;
+  background-size: 100px 120px;
   background-position: center;
 }
 
@@ -157,7 +179,7 @@ article h3 {
 .pawblo {
   background-image: url("./Pawblo.jpg");
   background-repeat: no-repeat;
-  background-size: 80px 140px;
+  background-size: 80px 120px;
   background-position: center;
 }
 
@@ -172,10 +194,27 @@ article h3 {
   text-align: center;
 }
 
+.status div p {
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+}
+
 .bfast-status,
 .dinner-status {
   display: flex;
   justify-content: space-evenly;
+}
+
+.checked {
+  background-image: url("./checked.svg");
+  height: 25px;
+  width: 25px;
+}
+
+.unchecked {
+  background-image: url("./cancel2.svg");
+  height: 25px;
+  width: 25px;
 }
 
 small {
@@ -183,7 +222,7 @@ small {
   color: gray;
 }
 
-@media screen and (min-width: 760px) {
+@media screen and (min-width: 720px) {
   .card-container {
     width: 70%;
   }

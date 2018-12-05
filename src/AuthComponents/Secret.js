@@ -206,7 +206,7 @@ export default class Secret extends Component {
                   <div>
                     <p>Breakfast</p>
                     <div className="bfast-status">
-                      <p>[ ]</p>
+                      <i className="bfast-icon checked"></i>
                       <button className="btn feed-btn">FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
@@ -214,7 +214,7 @@ export default class Secret extends Component {
                   <div>
                     <p>Dinner</p>
                     <div className="dinner-status">
-                      <p>[ ]</p>
+                      <i className="dinner-icon checked"></i>
                       <button className="btn feed-btn">FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
@@ -231,7 +231,7 @@ export default class Secret extends Component {
                   <div>
                     <p>Breakfast</p>
                     <div className="bfast-status">
-                      <p>[ ]</p>
+                      <i className="bfast-icon unchecked"></i>
                       <button className="btn feed-btn">FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
@@ -239,7 +239,7 @@ export default class Secret extends Component {
                   <div>
                     <p>Dinner</p>
                     <div className="dinner-status">
-                      <p>[ ]</p>
+                      <i className="dinner-icon unchecked"></i>
                       <button className="btn feed-btn">FEED</button>
                     </div>
                   <small>{this.timeStamp()}</small>
@@ -256,7 +256,7 @@ export default class Secret extends Component {
                   <div>
                     <p>Breakfast</p>
                     <div className="bfast-status">
-                      <p>[ ]</p>
+                      <i className="bfast-icon unchecked"></i>
                       <button className="btn feed-btn">FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
@@ -264,7 +264,7 @@ export default class Secret extends Component {
                   <div>
                     <p>Dinner</p>
                     <div className="dinner-status">
-                      <p>[ ]</p>
+                      <i className="dinner-icon unchecked"></i>
                       <button className="btn feed-btn">FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
