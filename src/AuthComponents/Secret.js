@@ -28,6 +28,8 @@ export default class Secret extends Component {
         return data.name
       })
       .then((nom) => this.saveDBCopy(nom))
+      .then((usr) => this.saveFeedData(usr))
+      .then(() => console.log(this.state.feedData))
       .catch()
   };
 
@@ -45,8 +47,7 @@ export default class Secret extends Component {
     userList.once("value").then(snap => {
       fetchedDB = snap.exportVal();
       this.setState({
-        data: fetchedDB,
-        fetched: true
+        data: fetchedDB
       })
     }).then(() => this.lawgState())
       .then(() => {
@@ -65,8 +66,22 @@ export default class Secret extends Component {
         }
       })
     //check userExists
-    return true;
+    return user;
   };
+
+  saveFeedData = user => {
+    console.log("saveFeedData");
+    console.log("user ", user);
+    let fetchedDB;
+    let feedLog = this.state.db.ref("/feedlog");
+    feedLog.once("value").then(snap => {
+      fetchedDB = snap.exportVal();
+      this.setState({
+        feedData: fetchedDB,
+        fetched: true
+      })
+    })
+  }
 
   fetchDBthenState = new Promise((resolve, reject) => {
     if (this.state && this.state.data && Object.keys(this.state.data).length > 1) {
@@ -120,6 +135,95 @@ export default class Secret extends Component {
     });
   };
 
+  updateFeedLog = () => {
+    let today = this.dateConversion();
+    if (this.state.db.ref(`/feedlog/${today}`) != undefined) {
+      console.log("today exists");
+      this.state.db.ref(`/feedlog/`).update({
+        [`${today}`]: {
+          franklin: {
+            breakfast: {
+              fed: true,
+              fedBy: "",
+              fedTime: ""
+            },
+            dinner: {
+              fed: false,
+              fedBy: "",
+              fedTime: ""
+            }
+          },
+          pawblo: {
+            breakfast: {
+              fed: true,
+              fedBy: "",
+              fedTime: ""
+            },
+            dinner: {
+              fed: false,
+              fedBy: "",
+              fedTime: ""
+            }
+          },
+          zero: {
+            breakfast: {
+              fed: true,
+              fedBy: "",
+              fedTime: ""
+            },
+            dinner: {
+              fed: false,
+              fedBy: "",
+              fedTime: ""
+            }
+          }
+        }
+      });
+    } else {
+      console.log("today doesnt exist");
+      this.state.db.ref(`/feedlog/`).update({
+        [`${today}`]: {
+          franklin: {
+            breakfast: {
+              fed: false,
+              fedBy: "",
+              fedTime: ""
+            },
+            dinner: {
+              fed: false,
+              fedBy: "",
+              fedTime: ""
+            }
+          },
+          pawblo: {
+            breakfast: {
+              fed: false,
+              fedBy: "",
+              fedTime: ""
+            },
+            dinner: {
+              fed: false,
+              fedBy: "",
+              fedTime: ""
+            }
+          },
+          zero: {
+            breakfast: {
+              fed: false,
+              fedBy: "",
+              fedTime: ""
+            },
+            dinner: {
+              fed: false,
+              fedBy: "",
+              fedTime: ""
+            }
+          }
+        }
+      })
+    }
+  }
+
 
   // updateUser = () => {
   //   this.updateLoginTime();
@@ -136,6 +240,7 @@ export default class Secret extends Component {
     if (this.state.fetched) {
       count = this.state.data[`${user}`].signInLog[`${day}`].visits;
       count++;
+      this.updateFeedLog()
       return db
         .ref(`/users/${user}/signInLog/${day}`)
         .child("visits")
@@ -186,8 +291,12 @@ export default class Secret extends Component {
     return today;
   };
 
+  _onClick = () => {
+    
+  }
+
   dataLoaded = () => {
-    if (this.state.fetched && this.state.name) {
+    if (this.state.fetched && this.state.name && this.state.feedData) {
       return (
         <section>
           <button className="btn">
@@ -197,6 +306,7 @@ export default class Secret extends Component {
           <article className="doggo-dashboard">
             <h3>Doggo Dashboard</h3>
             <div className="card-container flex-col">
+            {/*// map here!!! dynamically build doggo cards from DB data*/}
               <div className="doggo-card flex-row">
                 <div className="doggo-title">
                   <h4>FRANKLIN</h4>
@@ -215,7 +325,7 @@ export default class Secret extends Component {
                     <p>Dinner</p>
                     <div className="dinner-status">
                       <i className="dinner-icon checked"></i>
-                      <button className="btn feed-btn">FEED</button>
+                      <button className="btn feed-btn" onClick={this._onClick()}>FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
                   </div>
@@ -231,8 +341,15 @@ export default class Secret extends Component {
                   <div>
                     <p>Breakfast</p>
                     <div className="bfast-status">
-                      <i className="bfast-icon unchecked"></i>
-                      <button className="btn feed-btn">FEED</button>
+                      {/*<i className="bfast-icon unchecked"></i>*/}
+                      {(this.state.feedData[`${this.dateConversion()}`][`pawblo`].breakfast) != undefined
+                        && (this.state.feedData[`${this.dateConversion()}`][`pawblo`].breakfast)
+                                                        ? <i className="bfast-icon checked"></i>
+                                                        : <i className="bfast-icon unchecked"></i>
+                      }
+
+                      {console.log(this.state.feedData[`${this.dateConversion()}`][`pawblo`].breakfast)}
+                      {}<button className="btn feed-btn">FEED</button>
                     </div>
                     <small>{this.timeStamp()}</small>
                   </div>
