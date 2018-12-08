@@ -35,18 +35,8 @@ export default class Secret extends Component {
       })
       .then((nom) => this.saveDBCopy(nom))
       .then((usr) => this.saveFeedData(usr))
-      // .then(() => {
-      //   (!this.createFeedLogDay() ? this.saveFeedData(this.state.name)
-      //                             : console.log("feedLog exists already")
-      // )})
       .catch()
   };
-
-    // let derpy = new Promise((resolve, reject) => {
-    //   if (this.validUsr(user)) resolve(true)
-    //   else resolve(true)
-    // })
-    // derpy.then((value) => console.log(value))
 
   saveDBCopy = user => {
     console.log("saveDBCopy");
@@ -66,7 +56,7 @@ export default class Secret extends Component {
             this.createDay();
             // this.updateVisits();
           } else {
-            console.log("uppppppdddddaaateeeeeee");
+            console.log("uppppppdddddaaateeeeeee user");
             this.updateVisits();
             this.updateLoginTime();
           }
@@ -89,7 +79,7 @@ export default class Secret extends Component {
       fetchedDB = snap.exportVal();
       console.log(fetchedDB);
       if (fetchedDB[`${this.state.today}`]) {
-        console.log("today exists, store it in DB");
+        console.log("feedDay exists, store it in DB");
         this.setState({
           feedData: fetchedDB
         })
@@ -154,212 +144,39 @@ export default class Secret extends Component {
 
   createFeedLogDay = () => {
     let today = this.state.today;
-    // if (this.state.feedData && !this.state.feedData.hasOwnProperty(today)) {
-      // let feedLog = this.state.db.ref("/feedlog/");
       console.log("feedlog day doesnt exist");
       this.state.db.ref(`/feedlog/`).update({
         [`${today}`]: {
           breakfast: {
             franklin: false,
             pawblo: false,
-            zero: false,
-            fedBy: "NOBODY!",
-            fedTime: "NOT YET!"
+            zero: false
           },
           dinner: {
             franklin: false,
             pawblo: false,
-            zero: false,
-            fedBy: "NOBODY!",
-            fedTime: "NOT YET!"
+            zero: false
           }
         }
       })
-      // this.saveFeedData(this.state.name);
-      // return false;
-    // } else {
-    //   console.log("day checking the feed log isnt working... or today exists and im a dummy");
-    //   return true;
-    // }
   }
 
   updateDoggo = (doggo, meal) => {
     let day = this.state.today;
     if (this.state.feedData.hasOwnProperty(day)) {
       this.state.db.ref(`/feedlog/${day}/${meal}/`).update({
-        [`${doggo}`]: true,
-        fedBy: this.state.name,
-        fedTime: this.timeStamp()
+        [`${doggo}`]: this.state.name + " | " + this.timeStamp().split(',')[1]
       }, (error) => {
           if (error) {
             console.error(error);
             return;
           }
-        console.log("UpdateSuccessfulllllllll");
+        console.log("FeedUpdateSuccessfulllllllll");
       }).then(() => {
           this.saveFeedData(this.state.name)
       })
     }
-        // this.setState({
-        //   feedData: {
-        //     `${day}`:
-        //       {
-        //         `${doggo}`:
-        //           {
-        //             `${meal}`:
-        //               {
-        //                 fed: true,
-        //                 fedBy: this.state.name,
-        //                 fedTime: this.state.db.ref(`/feedlog/${day}/${doggo}/${meal}/fedTime`);
-        //               }
-        //           }
-        //       }
-        // this.setState({ feedData.day.doggo.meal.fed: true )};
-        // console.log(this.state.feedData[`${day}`]);
-        // this.state.feedData[`${day}/${doggo}/${meal}/fedBy`] = this.state.name;
-        // this.state.feedData[`${day}/${doggo}/${meal}/fedTime`] = this.timeStamp();
-        // console.log(this.state.feedData[`${day}/${doggo}/${meal}/fedTime`]);
-
-          // }[`${day}/${doggo}/${meal}`]:
-          //           {
-          //             fed: true,
-          //             fedBy: this.state.name,
-          //             fedTime: this.state.db.ref(`/feedlog/${day}/${doggo}/${meal}/fedTime`).val()
-          //           }
-    // })
   }
-
-  updateFeedLog = () => {
-    let today = this.state.today;
-    if (this.state.db && this.state.db.ref(`/feedlog/${today}`) != undefined) {
-      console.log("today exists");
-      this.state.db.ref(`/feedlog/`).update({
-        [`${today}`]: {
-          breakfast: {
-            franklin: false,
-            pawblo: false,
-            zero: false,
-            fedBy: "derp",
-            fedTime: "11:11pm"
-          },
-          dinner: {
-            franklin: false,
-            pawblo: false,
-            zero: false,
-            fedBy: "derp",
-            fedTime: "11:11pm"
-          }
-        }
-
-
-
-          // franklin: {
-          //   breakfast: {
-          //     fed: true,
-          //     fedBy: "",
-          //     fedTime: ""
-          //   },
-          //   dinner: {
-          //     fed: false,
-          //     fedBy: "",
-          //     fedTime: ""
-          //   }
-          // },
-          // pawblo: {
-          //   breakfast: {
-          //     fed: true,
-          //     fedBy: "",
-          //     fedTime: ""
-          //   },
-          //   dinner: {
-          //     fed: false,
-          //     fedBy: "",
-          //     fedTime: ""
-          //   }
-          // },
-          // zero: {
-          //   breakfast: {
-          //     fed: true,
-          //     fedBy: "",
-          //     fedTime: ""
-          //   },
-          //   dinner: {
-          //     fed: false,
-          //     fedBy: "",
-          //     fedTime: ""
-          //   }
-          // }
-        // }
-      });
-    } else {
-      console.log("today doesnt exist");
-      this.state.db.ref(`/feedlog/`).update({
-        [`${today}`]: {
-          breakfast: {
-            franklin: false,
-            pawblo: false,
-            zero: false,
-            fedBy: null,
-            fedTime: null
-          },
-          dinner: {
-            franklin: false,
-            pawblo: false,
-            zero: false,
-            fedBy: null,
-            fedTime: null
-          }
-        }
-
-
-
-
-        //   franklin: {
-        //     breakfast: {
-        //       fed: false,
-        //       fedBy: "",
-        //       fedTime: ""
-        //     },
-        //     dinner: {
-        //       fed: false,
-        //       fedBy: "",
-        //       fedTime: ""
-        //     }
-        //   },
-        //   pawblo: {
-        //     breakfast: {
-        //       fed: false,
-        //       fedBy: "",
-        //       fedTime: ""
-        //     },
-        //     dinner: {
-        //       fed: false,
-        //       fedBy: "",
-        //       fedTime: ""
-        //     }
-        //   },
-        //   zero: {
-        //     breakfast: {
-        //       fed: false,
-        //       fedBy: "",
-        //       fedTime: ""
-        //     },
-        //     dinner: {
-        //       fed: false,
-        //       fedBy: "",
-        //       fedTime: ""
-        //     }
-        //   }
-        // }
-      })
-    }
-  }
-
-
-  // updateUser = () => {
-  //   this.updateLoginTime();
-  //   this.updateDBCopy()
-  // };
 
   updateVisits = () => {
     console.log("updateVisits fn ____________");
@@ -367,11 +184,9 @@ export default class Secret extends Component {
     let user = this.state.name;
     let day = this.state.today;
     let count;
-    // if (this.state.data && Object.keys(this.state.data).length > 1) {
     if (this.state.fetched) {
       count = this.state.data[`${user}`].signInLog[`${day}`].visits;
       count++;
-      // this.updateFeedLog()
       return db
         .ref(`/users/${user}/signInLog/${day}`)
         .child("visits")
@@ -425,13 +240,7 @@ export default class Secret extends Component {
   _onClick(e, key, string) {
     e.preventDefault();
     console.log("clickkkkk");
-    console.log(key);
-    console.log(string);
     this.updateDoggo(key, string)
-    let day = this.state.today;
-    // this.state.db.ref(`/feedlog/${day}/`).on("child_changed", function(data) {
-    //   console.log(data, data.val());
-    // })
   }
 
   dataLoaded = () => {
@@ -456,8 +265,7 @@ export default class Secret extends Component {
           </button>
           <button className="btn" onClick={this.props.auth.logout}>Logout</button>
           <article className="doggo-dashboard">
-            {/*<h3>Doggo Dashboard</h3>*/}
-            <h3></h3>
+            <h3>{this.dateConversion()}</h3>
             <div className="card-container flex-col">
 
 
@@ -473,15 +281,12 @@ export default class Secret extends Component {
                     <div className={key}></div>
                   </div>
                   <div className="status">
-                    <div>
+                    <div className="bfast">
                       <p>Breakfast</p>
                       <div className="bfast-status">
-                      {/*{(this.state.db.ref(`/feedlog/${this.state.today}/${key}`).breakfast) != undefined
-                        && (this.state.db.ref(`/feedlog/${this.state.today}/${key}`).breakfast.fed)
-                                                        ? console.log("FED: TRUE")
-                                                        : console.log("FED: FALSE")}*/}
+
                       { (todaysFeed.breakfast) != undefined
-                        && (todaysFeed.breakfast[key])
+                        && (todaysFeed.breakfast[key].length !== undefined)
                                                         ? [<i className="checked"></i>,
                                                           <button
                                                           type="button"
@@ -500,28 +305,19 @@ export default class Secret extends Component {
                                                             FEED
                                                           </button>]
                       }
-                        {/*<button
-                          type="button"
-                          className="btn feed-btn"
-                          onClick={(event) => this.updateDoggo( key, "breakfast")}
-                        >
-                          FEED
-                        </button>*/}
                       </div>
-                      <small>{todaysFeed.breakfast.fedTime}</small>
-                      <small>`${(todaysFeed.breakfast.fedBy)}`</small>
+                      <small>{todaysFeed.breakfast[key].length ? todaysFeed.breakfast[key] : `${key} needs breakfast`}</small>
                     </div>
-                    <div>
+                    <div className="dinner">
                       <p>Dinner</p>
                       <div className="dinner-status">
                       { (todaysFeed.dinner) != undefined
-                        && (todaysFeed.dinner[key])
+                        && (todaysFeed.dinner[key].length !== undefined)
                                                     ? [<i className="checked"></i>,
                                                       <button
                                                       type="button"
                                                       className="feed-btn disabled"
                                                       disabled="disabled"
-                                                      // onClick={(event) => this.updateDoggo( key, "breakfast")}
                                                       >
                                                       FEED
                                                       </button>]
@@ -529,21 +325,13 @@ export default class Secret extends Component {
                                                       <button
                                                         type="button"
                                                         className="feed-btn"
-                                                        onClick={(event) => this.updateDoggo( key, "breakfast")}
+                                                        onClick={(event) => this.updateDoggo( key, "dinner")}
                                                       >
                                                         FEED
                                                       </button>]
                       }
-                        {/*<button
-                          type="button"
-                          className="btn feed-btn"
-                          onClick={(event) => this.updateDoggo(key, "dinner")}
-                        >
-                            FEED
-                        </button>*/}
                       </div>
-                      <small>{todaysFeed.dinner.fedTime}</small>
-                      <small>{todaysFeed.dinner.fedBy}</small>
+                      <small>{todaysFeed.dinner[key].length ? todaysFeed.dinner[key] : `${key} needs dinner`}</small>
                     </div>
                   </div>
                 </div>
