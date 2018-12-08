@@ -10,7 +10,7 @@ export default class Secret extends Component {
       name: "",
       db: fire.database(),
       data: {},
-      today: "12-04-2018"
+      today: this.dateConversion()
     };
     this.mounted = false;
     // this._onClick = this._onClick.bind(this)
@@ -35,7 +35,10 @@ export default class Secret extends Component {
       })
       .then((nom) => this.saveDBCopy(nom))
       .then((usr) => this.saveFeedData(usr))
-      // .then(() => console.log(this.state.feedData))
+      // .then(() => {
+      //   (!this.createFeedLogDay() ? this.saveFeedData(this.state.name)
+      //                             : console.log("feedLog exists already")
+      // )})
       .catch()
   };
 
@@ -82,22 +85,22 @@ export default class Secret extends Component {
     console.log("user ", user);
     let fetchedDB;
     let feedLog = this.state.db.ref("/feedlog");
-    feedLog.once("value").then(snap => {
+    feedLog.on("value", (snap => {
       fetchedDB = snap.exportVal();
-      this.setState({
-        feedData: fetchedDB
-      })
-    });
+      console.log(fetchedDB);
+      if (fetchedDB[`${this.state.today}`]) {
+        console.log("today exists, store it in DB");
+        this.setState({
+          feedData: fetchedDB
+        })
+      } else {
+        console.log("create feed log day here");
+        this.createFeedLogDay();
+      }
+    }))
   }
 
-  // fetchDBthenState = new Promise((resolve, reject) => {
-  //   if (this.state && this.state.data && Object.keys(this.state.data).length > 1) {
-  //     console.log("we have state data!!!");
-  //     resolve(true);
-  //   } else {
-  //     reject(false);
-  //   }
-  // });
+  lawgFeedData = () => console.log(this.state.feedData);
 
   saveName = user => this.setState({ name: user }, this.logName());
 
@@ -149,11 +152,42 @@ export default class Secret extends Component {
     });
   };
 
+  createFeedLogDay = () => {
+    let today = this.state.today;
+    // if (this.state.feedData && !this.state.feedData.hasOwnProperty(today)) {
+      // let feedLog = this.state.db.ref("/feedlog/");
+      console.log("feedlog day doesnt exist");
+      this.state.db.ref(`/feedlog/`).update({
+        [`${today}`]: {
+          breakfast: {
+            franklin: false,
+            pawblo: false,
+            zero: false,
+            fedBy: "NOBODY!",
+            fedTime: "NOT YET!"
+          },
+          dinner: {
+            franklin: false,
+            pawblo: false,
+            zero: false,
+            fedBy: "NOBODY!",
+            fedTime: "NOT YET!"
+          }
+        }
+      })
+      // this.saveFeedData(this.state.name);
+      // return false;
+    // } else {
+    //   console.log("day checking the feed log isnt working... or today exists and im a dummy");
+    //   return true;
+    // }
+  }
+
   updateDoggo = (doggo, meal) => {
     let day = this.state.today;
     if (this.state.feedData.hasOwnProperty(day)) {
-      this.state.db.ref(`/feedlog/${day}/${doggo}/${meal}`).update({
-        fed: true,
+      this.state.db.ref(`/feedlog/${day}/${meal}/`).update({
+        [`${doggo}`]: true,
         fedBy: this.state.name,
         fedTime: this.timeStamp()
       }, (error) => {
@@ -201,85 +235,122 @@ export default class Secret extends Component {
       console.log("today exists");
       this.state.db.ref(`/feedlog/`).update({
         [`${today}`]: {
-          franklin: {
-            breakfast: {
-              fed: true,
-              fedBy: "",
-              fedTime: ""
-            },
-            dinner: {
-              fed: false,
-              fedBy: "",
-              fedTime: ""
-            }
+          breakfast: {
+            franklin: false,
+            pawblo: false,
+            zero: false,
+            fedBy: "derp",
+            fedTime: "11:11pm"
           },
-          pawblo: {
-            breakfast: {
-              fed: true,
-              fedBy: "",
-              fedTime: ""
-            },
-            dinner: {
-              fed: false,
-              fedBy: "",
-              fedTime: ""
-            }
-          },
-          zero: {
-            breakfast: {
-              fed: true,
-              fedBy: "",
-              fedTime: ""
-            },
-            dinner: {
-              fed: false,
-              fedBy: "",
-              fedTime: ""
-            }
+          dinner: {
+            franklin: false,
+            pawblo: false,
+            zero: false,
+            fedBy: "derp",
+            fedTime: "11:11pm"
           }
         }
+
+
+
+          // franklin: {
+          //   breakfast: {
+          //     fed: true,
+          //     fedBy: "",
+          //     fedTime: ""
+          //   },
+          //   dinner: {
+          //     fed: false,
+          //     fedBy: "",
+          //     fedTime: ""
+          //   }
+          // },
+          // pawblo: {
+          //   breakfast: {
+          //     fed: true,
+          //     fedBy: "",
+          //     fedTime: ""
+          //   },
+          //   dinner: {
+          //     fed: false,
+          //     fedBy: "",
+          //     fedTime: ""
+          //   }
+          // },
+          // zero: {
+          //   breakfast: {
+          //     fed: true,
+          //     fedBy: "",
+          //     fedTime: ""
+          //   },
+          //   dinner: {
+          //     fed: false,
+          //     fedBy: "",
+          //     fedTime: ""
+          //   }
+          // }
+        // }
       });
     } else {
       console.log("today doesnt exist");
       this.state.db.ref(`/feedlog/`).update({
         [`${today}`]: {
-          franklin: {
-            breakfast: {
-              fed: false,
-              fedBy: "",
-              fedTime: ""
-            },
-            dinner: {
-              fed: false,
-              fedBy: "",
-              fedTime: ""
-            }
+          breakfast: {
+            franklin: false,
+            pawblo: false,
+            zero: false,
+            fedBy: null,
+            fedTime: null
           },
-          pawblo: {
-            breakfast: {
-              fed: false,
-              fedBy: "",
-              fedTime: ""
-            },
-            dinner: {
-              fed: false,
-              fedBy: "",
-              fedTime: ""
-            }
-          },
-          zero: {
-            breakfast: {
-              fed: false,
-              fedBy: "",
-              fedTime: ""
-            },
-            dinner: {
-              fed: false,
-              fedBy: "",
-              fedTime: ""
-            }
+          dinner: {
+            franklin: false,
+            pawblo: false,
+            zero: false,
+            fedBy: null,
+            fedTime: null
           }
         }
+
+
+
+
+        //   franklin: {
+        //     breakfast: {
+        //       fed: false,
+        //       fedBy: "",
+        //       fedTime: ""
+        //     },
+        //     dinner: {
+        //       fed: false,
+        //       fedBy: "",
+        //       fedTime: ""
+        //     }
+        //   },
+        //   pawblo: {
+        //     breakfast: {
+        //       fed: false,
+        //       fedBy: "",
+        //       fedTime: ""
+        //     },
+        //     dinner: {
+        //       fed: false,
+        //       fedBy: "",
+        //       fedTime: ""
+        //     }
+        //   },
+        //   zero: {
+        //     breakfast: {
+        //       fed: false,
+        //       fedBy: "",
+        //       fedTime: ""
+        //     },
+        //     dinner: {
+        //       fed: false,
+        //       fedBy: "",
+        //       fedTime: ""
+        //     }
+        //   }
+        // }
       })
     }
   }
@@ -367,12 +438,16 @@ export default class Secret extends Component {
     if (this.state.fetched && this.state.name && this.state.feedData) {
       let keyo = 0;
       let todaysFeed;
-      if (this.state.feedData[this.state.today].hasOwnProperty("franklin")) {
+      let dogNames = ['franklin', 'pawblo', 'zero'];
+      if (this.state.feedData[this.state.today]) {
         console.log("frank existsssssss");
         todaysFeed = this.state.feedData[`${this.state.today}`];
         console.log(todaysFeed);
       } else {
         console.log("todaysFeed is fucked in dataLoaded");
+        // todaysFeed = this.state.feedData
+        // this.setState({ feedData: {} });
+        this.fetchDB()
       }
       return (
         <section>
@@ -387,9 +462,9 @@ export default class Secret extends Component {
 
 
             {/*// map here!!! dynamically build doggo cards from DB data*/}
-            { Object.keys([todaysFeed][0]) !== null && Object.keys([todaysFeed][0]).map(key => {
-              console.log(key);
-              console.log([todaysFeed][0][key]);
+            {console.log("SKREEPS", (todaysFeed))}
+            {
+              (Object.keys([todaysFeed][0]) !== null && dogNames).map(key => {
               keyo++;
               return (
                 <div className="doggo-card flex-row" key={keyo}>
@@ -405,38 +480,70 @@ export default class Secret extends Component {
                         && (this.state.db.ref(`/feedlog/${this.state.today}/${key}`).breakfast.fed)
                                                         ? console.log("FED: TRUE")
                                                         : console.log("FED: FALSE")}*/}
-                      { (todaysFeed[`${key}`].breakfast) != undefined
-                        && (todaysFeed[`${key}`].breakfast.fed)
-                                                        ? <i className="checked"></i>
-                                                        : <i className="unchecked"></i>
+                      { (todaysFeed.breakfast) != undefined
+                        && (todaysFeed.breakfast[key])
+                                                        ? [<i className="checked"></i>,
+                                                          <button
+                                                          type="button"
+                                                          className="feed-btn disabled"
+                                                          disabled="disabled"
+                                                          // onClick={(event) => this.updateDoggo( key, "breakfast")}
+                                                          >
+                                                          FEED
+                                                          </button>]
+                                                        : [<i className="unchecked"></i>,
+                                                          <button
+                                                            type="button"
+                                                            className="feed-btn"
+                                                            onClick={(event) => this.updateDoggo( key, "breakfast")}
+                                                          >
+                                                            FEED
+                                                          </button>]
                       }
-                        <button
+                        {/*<button
                           type="button"
                           className="btn feed-btn"
                           onClick={(event) => this.updateDoggo( key, "breakfast")}
                         >
                           FEED
-                        </button>
+                        </button>*/}
                       </div>
-                      <small>{this.timeStamp()}</small>
+                      <small>{todaysFeed.breakfast.fedTime}</small>
+                      <small>`${(todaysFeed.breakfast.fedBy)}`</small>
                     </div>
                     <div>
                       <p>Dinner</p>
                       <div className="dinner-status">
-                      { (todaysFeed[`${key}`].dinner) != undefined
-                        && (todaysFeed[`${key}`].dinner.fed)
-                                                        ? <i className="checked"></i>
-                                                        : <i className="unchecked"></i>
+                      { (todaysFeed.dinner) != undefined
+                        && (todaysFeed.dinner[key])
+                                                    ? [<i className="checked"></i>,
+                                                      <button
+                                                      type="button"
+                                                      className="feed-btn disabled"
+                                                      disabled="disabled"
+                                                      // onClick={(event) => this.updateDoggo( key, "breakfast")}
+                                                      >
+                                                      FEED
+                                                      </button>]
+                                                    : [<i className="unchecked"></i>,
+                                                      <button
+                                                        type="button"
+                                                        className="feed-btn"
+                                                        onClick={(event) => this.updateDoggo( key, "breakfast")}
+                                                      >
+                                                        FEED
+                                                      </button>]
                       }
-                        <button
+                        {/*<button
                           type="button"
                           className="btn feed-btn"
                           onClick={(event) => this.updateDoggo(key, "dinner")}
                         >
                             FEED
-                        </button>
+                        </button>*/}
                       </div>
-                      <small>{this.timeStamp()}</small>
+                      <small>{todaysFeed.dinner.fedTime}</small>
+                      <small>{todaysFeed.dinner.fedBy}</small>
                     </div>
                   </div>
                 </div>

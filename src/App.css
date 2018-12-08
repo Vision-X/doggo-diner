@@ -112,10 +112,16 @@ article h3 {
 .feed-btn {
   height: 1.5rem;
   background-image: linear-gradient(to right, #7d019b, #69028f, #560283, #440277, #31016a);
+  background-color: black;
+  border-radius: 0;
+  width: 3rem;
+  border: none;
+  color: white;
 }
 
 .feed-btn:disabled {
-  background-color: grey;
+  background-image: none;
+  background-color: grey !important;
 }
 
 .card-container {
