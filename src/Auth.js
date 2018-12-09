@@ -10,7 +10,6 @@ class Auth {
     domain: process.env.REACT_APP_DOMAIN,
     clientID: process.env.REACT_APP_CLIENT_ID,
     // redirectUri: "http://localhost:3000/callback",
-    // redirectUri: "http://localhost:3000/callback",
     redirectUri: "https://n-high-st.firebaseapp.com/callback",
     audience: process.env.REACT_APP_AUDIENCE,
     responseType: "token id_token",

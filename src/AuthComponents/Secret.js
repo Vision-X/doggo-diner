@@ -159,7 +159,7 @@ export default class Secret extends Component {
         }
       })
   }
-
+  
   updateDoggo = (doggo, meal) => {
     console.log("updateDoggo fn ______________");
     let day = this.state.today;
