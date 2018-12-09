@@ -159,7 +159,7 @@ export default class Secret extends Component {
         }
       })
   }
-  
+
   updateDoggo = (doggo, meal) => {
     console.log("updateDoggo fn ______________");
     let day = this.state.today;
@@ -279,16 +279,7 @@ export default class Secret extends Component {
                         <div className="bfast-status">
                           {todaysFeed.breakfast != undefined &&
                           todaysFeed.breakfast[key]
-                            ? [
-                                <i className="checked" />,
-                                <button
-                                  type="button"
-                                  className="feed-btn disabled"
-                                  disabled="disabled"
-                                >
-                                  FED!!
-                                </button>
-                              ]
+                            ? <i className="checked" />
                             : [
                                 <i className="unchecked" />,
                                 <button
@@ -311,16 +302,7 @@ export default class Secret extends Component {
                         <div className="dinner-status">
                           {todaysFeed.dinner != undefined &&
                           todaysFeed.dinner[key]
-                            ? [
-                                <i className="checked" />,
-                                <button
-                                  type="button"
-                                  className="feed-btn disabled"
-                                  disabled="disabled"
-                                >
-                                  FED!!
-                                </button>
-                              ]
+                            ? <i className="checked" />
                             : [
                                 <i className="unchecked" />,
                                 <button
