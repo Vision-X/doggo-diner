@@ -165,7 +165,7 @@ export default class Secret extends Component {
     let day = this.state.today;
     if (this.state.feedData.hasOwnProperty(day)) {
       this.state.db.ref(`/feedlog/${day}/${meal}/`).update({
-        [`${doggo}`]: this.state.name + " | " + this.timeStamp().split(',')[1]
+        [`${doggo}`]: this.state.name + " " + this.timeStamp().split(',')[1]
       }, (error) => {
           if (error) {
             console.error(error);
@@ -267,78 +267,86 @@ export default class Secret extends Component {
           <article className="doggo-dashboard">
             <h3>{this.dateConversion()}</h3>
             <div className="card-container flex-col">
-
-
-            {/*// map here!!! dynamically build doggo cards from DB data*/}
             {console.log("SKREEPS", (todaysFeed))}
             {
               (Object.keys([todaysFeed][0]) !== null && dogNames).map(key => {
-              keyo++;
-              return (
-                <div className="doggo-card flex-row" key={keyo}>
-                  <div className="doggo-title">
-                    <h4>{key.toUpperCase()}</h4>
-                    <div className={key}></div>
-                  </div>
-                  <div className="status">
-                    <div className="bfast">
-                      <p>Breakfast</p>
-                      <div className="bfast-status">
-
-                      { (todaysFeed.breakfast) != undefined
-                        && (todaysFeed.breakfast[key].length !== undefined)
-                                                        ? [<i className="checked"></i>,
-                                                          <button
-                                                          type="button"
-                                                          className="feed-btn disabled"
-                                                          disabled="disabled"
-                                                          // onClick={(event) => this.updateDoggo( key, "breakfast")}
-                                                          >
-                                                          FEED
-                                                          </button>]
-                                                        : [<i className="unchecked"></i>,
-                                                          <button
-                                                            type="button"
-                                                            className="feed-btn"
-                                                            onClick={(event) => this.updateDoggo( key, "breakfast")}
-                                                          >
-                                                            FEED
-                                                          </button>]
-                      }
-                      </div>
-                      <small>{todaysFeed.breakfast[key].length ? todaysFeed.breakfast[key] : `${key} needs breakfast`}</small>
+                keyo++;
+                return (
+                  <div className="doggo-card flex-row" key={keyo}>
+                    <div className="doggo-title">
+                      <h4>{key.toUpperCase()}</h4>
+                      <div className={key} />
                     </div>
-                    <div className="dinner">
-                      <p>Dinner</p>
-                      <div className="dinner-status">
-                      { (todaysFeed.dinner) != undefined
-                        && (todaysFeed.dinner[key].length !== undefined)
-                                                    ? [<i className="checked"></i>,
-                                                      <button
-                                                      type="button"
-                                                      className="feed-btn disabled"
-                                                      disabled="disabled"
-                                                      >
-                                                      FEED
-                                                      </button>]
-                                                    : [<i className="unchecked"></i>,
-                                                      <button
-                                                        type="button"
-                                                        className="feed-btn"
-                                                        onClick={(event) => this.updateDoggo( key, "dinner")}
-                                                      >
-                                                        FEED
-                                                      </button>]
-                      }
+                    <div className="status">
+                      <div className="bfast">
+                        <p>Breakfast</p>
+                        <div className="bfast-status">
+                          {todaysFeed.breakfast != undefined &&
+                          todaysFeed.breakfast[key]
+                            ? [
+                                <i className="checked" />,
+                                <button
+                                  type="button"
+                                  className="feed-btn disabled"
+                                  disabled="disabled"
+                                >
+                                  FED!!
+                                </button>
+                              ]
+                            : [
+                                <i className="unchecked" />,
+                                <button
+                                  type="button"
+                                  className="feed-btn"
+                                  onClick={event => this.updateDoggo(key, "breakfast")}
+                                >
+                                  FEED
+                                </button>
+                              ]}
+                        </div>
+                        <small>
+                          {todaysFeed.breakfast[key].length
+                            ? todaysFeed.breakfast[key]
+                            : `${key.toUpperCase()} needs breakfast`}
+                        </small>
                       </div>
-                      <small>{todaysFeed.dinner[key].length ? todaysFeed.dinner[key] : `${key} needs dinner`}</small>
+                      <div className="dinner">
+                        <p>Dinner</p>
+                        <div className="dinner-status">
+                          {todaysFeed.dinner != undefined &&
+                          todaysFeed.dinner[key]
+                            ? [
+                                <i className="checked" />,
+                                <button
+                                  type="button"
+                                  className="feed-btn disabled"
+                                  disabled="disabled"
+                                >
+                                  FED!!
+                                </button>
+                              ]
+                            : [
+                                <i className="unchecked" />,
+                                <button
+                                  type="button"
+                                  className="feed-btn"
+                                  onClick={event => this.updateDoggo(key, "dinner")}
+                                >
+                                  FEED
+                                </button>
+                              ]}
+                        </div>
+                        <small>
+                          {todaysFeed.dinner[key].length
+                            ? todaysFeed.dinner[key]
+                            : `${key.toUpperCase()} needs dinner`}
+                        </small>
+                      </div>
                     </div>
                   </div>
-                </div>
-                )
+                );
               })
             }
-            {/* End of dynamic el build loop */}
             </div>
           </article>
         </section>
