@@ -13,11 +13,10 @@ export default class Secret extends Component {
       today: this.dateConversion()
     };
     this.mounted = false;
-    // this._onClick = this._onClick.bind(this)
   };
 
   fetchDB = () => {
-    console.log("fetchDB");
+    console.log("fetchDB fn _____________");
     if (this.state.fetched) {
       this.setState({ fetched: false })
     }
@@ -39,7 +38,7 @@ export default class Secret extends Component {
   };
 
   saveDBCopy = user => {
-    console.log("saveDBCopy");
+    console.log("saveDBCopy fn ___________");
     console.log("user ", user);
     let fetchedDB;
     let userList = this.state.db.ref("/users");
@@ -54,7 +53,6 @@ export default class Secret extends Component {
         if (this.state.fetched && this.userExists()) {
           if (!this.todayExists()) {
             this.createDay();
-            // this.updateVisits();
           } else {
             console.log("uppppppdddddaaateeeeeee user");
             this.updateVisits();
@@ -71,7 +69,7 @@ export default class Secret extends Component {
   };
 
   saveFeedData = user => {
-    console.log("saveFeedData");
+    console.log("saveFeedData fn ____________");
     console.log("user ", user);
     let fetchedDB;
     let feedLog = this.state.db.ref("/feedlog");
@@ -143,6 +141,7 @@ export default class Secret extends Component {
   };
 
   createFeedLogDay = () => {
+    console.log("createFeedLogDay fn ______________");
     let today = this.state.today;
       console.log("feedlog day doesnt exist");
       this.state.db.ref(`/feedlog/`).update({
@@ -162,6 +161,7 @@ export default class Secret extends Component {
   }
 
   updateDoggo = (doggo, meal) => {
+    console.log("updateDoggo fn ______________");
     let day = this.state.today;
     if (this.state.feedData.hasOwnProperty(day)) {
       this.state.db.ref(`/feedlog/${day}/${meal}/`).update({
@@ -239,7 +239,6 @@ export default class Secret extends Component {
 
   _onClick(e, key, string) {
     e.preventDefault();
-    console.log("clickkkkk");
     this.updateDoggo(key, string)
   }
 
@@ -250,12 +249,9 @@ export default class Secret extends Component {
       let dogNames = ['franklin', 'pawblo', 'zero'];
       if (this.state.feedData[this.state.today]) {
         console.log("frank existsssssss");
-        todaysFeed = this.state.feedData[`${this.state.today}`];
-        console.log(todaysFeed);
+        todaysFeed = this.state.feedData[this.state.today];
       } else {
         console.log("todaysFeed is fucked in dataLoaded");
-        // todaysFeed = this.state.feedData
-        // this.setState({ feedData: {} });
         this.fetchDB()
       }
       return (
